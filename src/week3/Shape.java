@@ -21,7 +21,6 @@ public class Shape {
 	}
 	
 	public static void 오른쪽직각삼각형그리기(int height) {
-		//
 		for(int i=0; i<height; i++) {
 			System.out.printf("%2d : ", i+1);
 			
@@ -81,7 +80,7 @@ public class Shape {
 			
 			//별 찍는 반복문
 			for(int j=0; j<height-i; j++) {
-				System.out.print("* ");
+				System.out.print("★");
 			}
 			System.out.println();
 		}
@@ -98,9 +97,57 @@ public class Shape {
 		
 	}
 	
+	// 메소드 오버로딩
+	public static void 사각형그리기(int width, int height, int 빈칸) {
+	    for (int i = 0; i < height; i++) {
+	        System.out.printf("%2d : ", i + 1);
+	        
+	        for (int k = 0; k < 빈칸; k++) {
+	            System.out.print("  ");
+	        }
+	        for (int j = 0; j < width; j++) {
+	            System.out.print("* ");
+	        }
+	        System.out.println();
+	    }
+	}
+	
+	
+	public static void 크리스마스트리그리기(int height) {
+	    int 현재행 = 0;
+
+	    for (int i = 0; i < height; i++) {
+	        System.out.printf("%2d : ", i + 1);
+
+	        if ((i + 1) % 5 == 0) {
+	            for (int k = 0; k < height - 현재행 - 1; k++) {
+	                System.out.print(" ");  
+	            }
+	            for (int j = 0; j <= 현재행; j++) {
+	                System.out.print("o ");  // ☆ → o
+	            }
+	        } else {
+	            for (int k = 0; k < height - 현재행 - 1; k++) {
+	                System.out.print(" ");  
+	            }
+	            for (int j = 0; j <= 현재행; j++) {
+	                System.out.print("* ");  // ★ → *
+	            }
+	        }
+	        현재행++; 
+	        System.out.println();
+	    }
+	    
+	    //밑둥
+	    int 밑둥높이 = height/4;
+	    int 밑둥너비 = height/2;
+	    int 빈칸 = (height-밑둥너비)/2;
+	    사각형그리기(밑둥너비, 밑둥높이, 빈칸);
+	}
+	
 	public static void 메뉴보이기() {
 		System.out.println("------------------------");
-		System.out.println("1.왼쪽직각삼각형 2.오른쪽직각삼각형 3.정삼각형 4.사각형 5.거꾸로정삼각형 6.모래시계 7.다이아몬드 ... 9.크기입력 ... 0.그만");
+		System.out.println("1.왼쪽직각삼각형 2.오른쪽직각삼각형 3.정삼각형 4.사각형 5.거꾸로정삼각형 6.모래시계 7.다이아몬드 8.크리스마스트리 9.크기입력 ... 0.그만");
 		System.out.println("------------------------");
 	}
 
@@ -130,6 +177,7 @@ public class Shape {
 			else if (menu==5) 거꾸로정삼각형그리기(height);
 			else if (menu==6) 모래시계그리기(height);
 			else if (menu==7) 다이아몬드그리기(height);
+			else if (menu==8) 크리스마스트리그리기(height);
 			else if (menu==9) {
 				System.out.printf("가로: ");
 				width=input.nextInt();
