@@ -11,9 +11,7 @@ public class Lab4_6 {
 	public static int [][] makeArray(int n) {
 		int [][] arr = new int[n][];
 		
-		// n을 써도 되는건가? 
-		// arr.length를 쓰는게 더 좋은코드?
-		for (int i=0; i<n; i++) {
+		for (int i=0; i<arr.length; i++) {
 			System.out.print(i+1 + "행의 열 개수: ");
 			int col = scanner.nextInt();
 			arr[i] = new int[col];
@@ -37,7 +35,7 @@ public class Lab4_6 {
 	public static void main(String[] args) {
 		// 1. 배열 공간 생성 makeArray()
 		// 2. 값 초기화하기 initArray()
-		System.out.println("행 개수 입력: ");
+		System.out.print("행 개수 입력: ");
 		int n = scanner.nextInt();
 		
 		int[][] arr = makeArray(n);
