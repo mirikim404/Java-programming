@@ -1,127 +1,150 @@
 package week4;
 
-
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Reservation {
-	static Scanner sc = new Scanner(System.in);
+	public static Scanner sc = new Scanner(System.in);
 	
-	
-	public static void 예약하기 (int [][] ar) {
-		
-		//1. row, col 입력받아서
-		//2. 0~9까지가 아니라 1~10까지로 변경해줘야 하므로
-		//3. 실제 입력이 1,1 ---> 0,0
-		
-		int row, col;
-		
-		while(true) {
-			System.out.print("예약할 좌석의 행: ");
-			row = sc.nextInt();
-			
-			if (row<0 || row>ar.length -1 ) {
-				System.out.println("올바른 좌석의 인덱스가 아닙니다.");
-			}
-			
-			System.out.print("예약할 좌석의 열: ");
-			col = sc.nextInt();
-			
-			if (col<0 || col>ar.length -1 ) {
-				System.out.println("올바른 좌석의 인덱스가 아닙니다.");
-			}
-			
-			if(ar[row][col] == 1) {
-				System.out.println("이미 예약된 자리입니다.");
-			}
-			
-			else break;
-			
-		}
-		ar[row][col] = 1;
+	public static void showMenu() {
+		System.out.println("-------------------------------------------");
+		System.out.println("1.좌석현황 2.예약하기 3.취소하기 4.n자리예약하기 0.종료");
+		System.out.println("-------------------------------------------");
 	}
 	
-	
-	
-	public static void 취소하기 (int [][] ar) {
-		
-		int row, col;
-		
-		while(true) {
-			System.out.print("취소할 좌석의 행: ");
-			row = sc.nextInt();
-			
-			if (row<0 || row>ar.length -1 ) {
-				System.out.println("올바른 좌석의 인덱스가 아닙니다.");
-			}
-			
-			System.out.print("취소할 좌석의 열: ");
-			col = sc.nextInt();
-			
-			if (col<0 || col>ar.length -1 ) {
-				System.out.println("올바른 좌석의 인덱스가 아닙니다.");
-			}
-			
-			if(ar[row][col] == 0) {
-				System.out.println("이미 예약이 없는 자리입니다. 예약하기 메뉴로 넘어가주세요.");
-			}
-			
-			else break;
-			
-		}
-		ar[row][col] = 0;
+	public static int[][] makeArray() {
+		int [][] arr = new int [10][10];
+		return arr;	
 	}
 	
+	public static void initArray(int [][] arr) {
+		for (int i=0; i<arr.length; i++) {
+			for (int j=0; j<arr[i].length; j++) {
+				arr[i][j] = 0;
+			}
+		}
+	}
 	
-	
-	public static void 좌석보이기 (int [][] ar) {
-		//TODO: □■ 사용해서 나타내기
-		for (int row=0; row<ar.length; row++) {
-			System.out.printf("{%2d} : ", row+1 );
-			for (int col=0; col<ar[row].length; col++) {
-				if(ar[row][col]==0) System.out.print("□");
-				else System.out.print("■");
+	public static void showSeat(int [][] arr) { 
+		for (int i=0; i<arr.length; i++) {
+			System.out.printf("%2d : ", i+1);
+			for (int j=0; j<arr[i].length; j++) {
+				if(arr[i][j] == 0) System.out.print("□");
+				if(arr[i][j] == 1) System.out.print("■");
 			}
 			System.out.println();
 		}
-		
+	}
+	
+	public static void reserveSeat(int [][] arr) {
+		int row, col; 
+		while (true) {
+			System.out.print("예약할 행: ");
+			row = sc.nextInt();
+			System.out.print("예약할 열: ");
+			col = sc.nextInt();
+			if (row < 1 || row > 10 || col<1 || col>10) {
+				System.out.println("그런 좌석은 없습니다.");
+				continue;
+			}
+			break;
+		}
+		arr[row-1][col-1] = 1;
 	}
 	
 	
-	
-	public static void 메뉴보이기 () {
-		System.out.println("=========================================");
-		System.out.println("1. 좌석보이기 2. 예약하기 3. 취소하기 ... 0. 종료 ");
-		System.out.println("=========================================");
-
-	}
-	
-	
-	
-
-	public static void main(String[] args) {
-		int [][] seat = new int [10][10];
-		
-		// 1. 메뉴보이기
-		// 2. 메뉴 입력받기
-		// 3. 메뉴대로 처리하기
-
-		while(true) {
+	public static void cancelSeat(int [][] arr) {
+		int row, col; 
+		String reply;
+		while (true) {
+			System.out.print("취소할 행: ");
+			row = sc.nextInt();
+			System.out.print("취소할 열: ");
+			col = sc.nextInt();
+			sc.nextLine();
 			
-			메뉴보이기();
-			System.out.print("메뉴를 입력하세요: ");
-			int menu = sc.nextInt();
+			if (row < 1 || row > 10 || col<1 || col>10) {
+				System.out.println("그런 좌석은 없습니다."); continue;
+			}
 			
-			if (menu == 0) break;
-			if (menu == 1) 좌석보이기(seat);
-			if (menu == 2) 예약하기(seat);
-			if (menu == 3) 취소하기(seat);
+			if (arr[row-1][col-1]==0) {
+				System.out.print("비어있는 좌석입니다. 예약하기로 이동하시겠습니까? (Y/N) --");
+				reply = sc.nextLine();
+				if (reply.equals("Y")) reserveSeat(arr);
+				if (reply.equals("N")) System.out.println("취소하기를 종료합니다. ");
+			}
 			
-				
+			break;
 		}
 		
-		System.out.println("극장예약시스템을 종료합니다!");
-		
-
+		arr[row-1][col-1] = 0;
 	}
-
+	
+	public static void reserveConsecutive(int [][] arr) {
+		
+		System.out.print("몇자리를 예약하시겠습니까? ");
+		int n = sc.nextInt();
+		int count = 0;
+		ArrayList<int[]> possible = new ArrayList<>();
+		
+		for (int i=0; i<arr.length; i++) {
+			count = 0;
+			for (int j=0; j<arr[i].length; j++) {
+				if (arr[i][j] == 1) {
+				    if (count >= n) possible.add(new int[]{i+1, j});
+				    count = 0;
+				} else {
+				    count++;
+				    if (count >= n) possible.add(new int[]{i+1, j+1});
+				}
+			}
+		}
+		System.out.println("예약가능한 자리는 다음과 같습니다");
+		for (int[] pair : possible) {
+			System.out.println(pair[0] + "행 " + (pair[1]-n+1) + "열 부터 " + pair[1] + "열까지 가능합니다.");
+		}
+			
+	}
+	
+	public static void completeReservation(int [][] arr) {
+		int vipSum=0;
+		int commonSum=0;
+		int totalSum=0;
+		for (int i=0; i<arr.length; i++) {
+			for (int j=0; j<arr[i].length; j++) {
+				if (arr[i][j]==1) {
+					if (i==0 || i==1) vipSum+=10000;
+					else commonSum+=5000;
+				}
+			}
+		}
+		totalSum = vipSum + commonSum;
+		System.out.println("총 가격은 " + totalSum + "입니다.");
+	}
+	
+	
+	public static void main (String [] args) {
+		
+		int [][] intArray = makeArray();
+		initArray(intArray);
+		
+		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		while(true) {
+			showMenu();
+			System.out.print("menu: ");
+			int n = sc.nextInt();
+			
+			if (n==0) break;
+			if (n==1) showSeat(intArray);
+			if (n==2) reserveSeat(intArray);
+			if (n==3) cancelSeat(intArray);
+			if (n==4) reserveConsecutive(intArray);
+		}
+		
+		completeReservation(intArray);
+		
+		
+	}
+	
+	
 }
